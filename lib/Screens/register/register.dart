@@ -27,20 +27,30 @@ class RegisterScreen extends State<RegisterPage> {
   // TextEditingController passwordController = TextEditingController();
   var jsonResponse;
   bool isLoading = false;
-  signUp(String firstname, String email, String password, String lastname, String phone, String id_number,String address, String role) async {
+  signUp(String firstname, String email, String password, String lastname,
+      String phone, String id_number, String address, String role) async {
     String url = "https://tumira-backend.herokuapp.com/auth/register";
-    Map body = {"phone": phone, "email": email, "password": password, "firstname": firstname, "lastname": lastname, "id_number": id_number, "address":address, "role":role};
+    Map body = {
+      "phone": phone,
+      "email": email,
+      "password": password,
+      "firstname": firstname,
+      "lastname": lastname,
+      "id_number": id_number,
+      "address": address,
+      "role": role
+    };
     String bdy = json.encode(body);
     // var res = await http.Client().post(Uri.parse(url), body: body);
     var res = await http.Client().post(Uri.parse(url), body: bdy, headers: {
-      HttpHeaders.acceptCharsetHeader: '/',
+      HttpHeaders.acceptCharsetHeader: '*/*',
       HttpHeaders.contentTypeHeader: 'application/json'
     });
     print(bdy);
     if (res.statusCode == 200) {
       //jsonResponse = json.decode(res.body);
       var jsonResponse = res.body;
-      print("Response status: ${res.statusCode}");
+      print(res.body);
       if (jsonResponse.toString().length <= 5) {
         setState(() {
           isLoading = false;
@@ -91,7 +101,7 @@ class RegisterScreen extends State<RegisterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-                        SizedBox(
+            SizedBox(
               height: size.height * 0.0,
             ),
             Container(
@@ -200,17 +210,23 @@ class RegisterScreen extends State<RegisterPage> {
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
-                onPressed: emailController.text == "" ||
-                        passwordController.text == ""
-                    ? null
-                    : () {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        signUp(emailController.text, firstnameController.text,
-                            passwordController.text,lastnameController.text, addressController.text,
-                            roleController.text,id_numberController.text,phoneController.text);
-                      },
+                onPressed:
+                    emailController.text == "" || passwordController.text == ""
+                        ? null
+                        : () {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            signUp(
+                                emailController.text,
+                                firstnameController.text,
+                                passwordController.text,
+                                lastnameController.text,
+                                addressController.text,
+                                roleController.text,
+                                id_numberController.text,
+                                phoneController.text);
+                          },
 
                 //shape: RoundedRectangleBorder(
                 //    borderRadius: BorderRadius.circular(80.0)),

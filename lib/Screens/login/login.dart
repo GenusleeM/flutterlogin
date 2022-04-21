@@ -25,7 +25,7 @@ class LoginScreen extends State<LoginPage> {
     //print(body);
 
     var res = await http.Client().post(Uri.parse(url), body: bdy, headers: {
-      HttpHeaders.acceptCharsetHeader: '/',
+      HttpHeaders.acceptCharsetHeader: '*/*',
       HttpHeaders.contentTypeHeader: 'application/json'
     });
     if (res.statusCode == 200) {
