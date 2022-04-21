@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:login_register/Components/background.dart';
-import 'package:login_register/Screens/home/home.dart';
-import 'package:login_register/Screens/login/login.dart';
+import 'package:tumira_cash/Components/background.dart';
+import 'package:tumira_cash/Screens/home/home.dart';
+import 'package:tumira_cash/Screens/login/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import 'package:login_register/Components/popup.dart';
+import 'package:tumira_cash/Components/popup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -16,26 +16,26 @@ class RegisterPage extends StatefulWidget {
 }
 
 class RegisterScreen extends State<RegisterPage> {
-  TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController id_numberController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController roleController = TextEditingController();
   // TextEditingController passwordController = TextEditingController();
   var jsonResponse;
   bool isLoading = false;
-  signUp(String firstname, String email, String password, String lastname,
+  signUp(String email, String password, String lastname,String firstname, 
       String phone, String id_number, String address, String role) async {
     String url = "https://tumira-backend.herokuapp.com/auth/register";
     Map body = {
-      "phone": phone,
       "email": email,
       "password": password,
-      "firstname": firstname,
       "lastname": lastname,
+      "firstname": firstname,
+      "phone": phone,
       "id_number": id_number,
       "address": address,
       "role": role
@@ -57,7 +57,7 @@ class RegisterScreen extends State<RegisterPage> {
         });
       }
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('jwt', jsonResponse);
+      prefs.setString('token', jsonResponse);
       // kayıt başarılı!
 
       Navigator.of(context).pushAndRemoveUntil(
@@ -102,7 +102,7 @@ class RegisterScreen extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: size.height * 0.0,
+              height: size.height * 0.09,
             ),
             Container(
               alignment: Alignment.centerLeft,
@@ -219,13 +219,13 @@ class RegisterScreen extends State<RegisterPage> {
                             });
                             signUp(
                                 emailController.text,
-                                firstnameController.text,
                                 passwordController.text,
                                 lastnameController.text,
-                                addressController.text,
-                                roleController.text,
+                                firstnameController.text,
+                                phoneController.text,
                                 id_numberController.text,
-                                phoneController.text);
+                                addressController.text,
+                                roleController.text,);
                           },
 
                 //shape: RoundedRectangleBorder(

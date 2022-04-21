@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:login_register/Models/FoodsModel.dart';
+import 'package:tumira_cash/Models/FoodsModel.dart';
 import 'dart:convert' show json, base64, ascii;
 import 'package:http/http.dart' as http;
-import 'package:login_register/Screens/detail/details.dart';
-import 'package:login_register/Screens/menu/draw_menu.dart';
+import 'package:tumira_cash/Screens/detail/details.dart';
+import 'package:tumira_cash/Screens/menu/draw_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF4478FA),
-        title: Text('Tumira Cash',
+        title: Text('tumira_cash',
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

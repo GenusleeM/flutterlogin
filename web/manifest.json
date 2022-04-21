@@ -1,6 +1,6 @@
 {
-    "name": "login_register",
-    "short_name": "login_register",
+    "name": "tumira_cash",
+    "short_name": "tumira_cash",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

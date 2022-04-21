@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.login_register">
+    package="com.example.tumira_cash">
    <application
-        android:label="login_register"
+        android:label="tumira_cash"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

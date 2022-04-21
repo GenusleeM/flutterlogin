@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:login_register/Screens/login/login.dart';
+import 'package:tumira_cash/Screens/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:login_register/Models/UsersModel.dart';
+import 'package:tumira_cash/Models/UsersModel.dart';
 
 const SERVER_IP = "http://10.0.2.2:3000";
 

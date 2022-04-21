@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:login_register/Components/background.dart';
-import 'package:login_register/Screens/register/register.dart';
+import 'package:tumira_cash/Components/background.dart';
+import 'package:tumira_cash/Screens/register/register.dart';
 import 'package:http/http.dart' as http;
-import 'package:login_register/Screens/home/home.dart';
+import 'package:tumira_cash/Screens/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,7 +34,7 @@ class LoginScreen extends State<LoginPage> {
       print(jsonResponse);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('jwt', jsonResponse);
+      prefs.setString('token', jsonResponse);
 
       //login giriş başarılı!
       Navigator.of(context).pushAndRemoveUntil(
