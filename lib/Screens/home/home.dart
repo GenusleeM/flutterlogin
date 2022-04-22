@@ -11,14 +11,14 @@ import 'dart:convert';
 const SERVER_IP = "http://10.0.2.2:3000";
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen(this.jwt, this.payload);
+  HomeScreen(this.token, this.payload);
 
-  factory HomeScreen.fromBase64(String jwt) => HomeScreen(
-      jwt,
+  factory HomeScreen.fromBase64(String token) => HomeScreen(
+      token,
       json.decode(
-          ascii.decode(base64.decode(base64.normalize(jwt.split(".")[1])))));
+          ascii.decode(base64.decode(base64.normalize(token.split(".")[1])))));
 
-  final String jwt;
+  final String token;
   final Map<String, dynamic> payload;
 
   @override
@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('jwt');
+    prefs.remove('token');
   }
 
   bool isLoading = false;
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF4478FA),
-        title: Text('tumira_cash',
+        title: Text('Tumira Cash international',
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

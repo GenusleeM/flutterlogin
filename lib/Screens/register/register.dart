@@ -49,21 +49,21 @@ class RegisterScreen extends State<RegisterPage> {
     print(bdy);
     if (res.statusCode == 200) {
       //jsonResponse = json.decode(res.body);
-      var jsonResponse = res.body;
-      print(res.body);
+      Map<String, dynamic> jsonResponse = jsonDecode(res.body);
+      print(jsonResponse['data']['token']);
       if (jsonResponse.toString().length <= 5) {
         setState(() {
           isLoading = false;
         });
       }
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', jsonResponse);
+      prefs.setString('token', jsonResponse['data']['token']);
       // kayıt başarılı!
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (BuildContext context) =>
-                  HomeScreen.fromBase64(jsonResponse)),
+                  HomeScreen.fromBase64(jsonResponse.toString())),
           (Route<dynamic> route) => false);
 
       /*showDialog(
@@ -96,183 +96,187 @@ class RegisterScreen extends State<RegisterPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: size.height * 0.09,
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                "Register",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2661FA),
-                    fontSize: 36),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: emailController,
-                decoration: InputDecoration(labelText: "Email"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: "Password"),
-                obscureText: true,
-              ),
-            ),
-            SizedBox(height: size.height * 0.01),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: lastnameController,
-                decoration: InputDecoration(labelText: "Last Name"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: firstnameController,
-                decoration: InputDecoration(labelText: "First Name"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: phoneController,
-                decoration: InputDecoration(labelText: "Phone"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: id_numberController,
-                decoration: InputDecoration(labelText: "ID Number"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: addressController,
-                decoration: InputDecoration(labelText: "Address"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: roleController,
-                decoration: InputDecoration(labelText: "Role"),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: ElevatedButton(
-                onPressed:
-                    emailController.text == "" || passwordController.text == ""
-                        ? null
-                        : () {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            signUp(
-                                emailController.text,
-                                passwordController.text,
-                                lastnameController.text,
-                                firstnameController.text,
-                                phoneController.text,
-                                id_numberController.text,
-                                addressController.text,
-                                roleController.text,);
-                          },
+        reverse: true,
+        child: Container(
 
-                //shape: RoundedRectangleBorder(
-                //    borderRadius: BorderRadius.circular(80.0)),
-                //textColor: Colors.white,
-                //padding: const EdgeInsets.all(0),
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(80.0)),
-                    padding: const EdgeInsets.all(0)),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50.0,
-                  width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: new LinearGradient(colors: [
-                        Color.fromARGB(255, 255, 136, 34),
-                        Color.fromARGB(255, 255, 177, 41)
-                      ])),
-                  padding: const EdgeInsets.all(0),
-                  child: Text(
-                    "Sign Up",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: size.height * 0.09,
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: Text(
+                  "Register",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2661FA),
+                      fontSize: 36),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(labelText: "Email"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(labelText: "Password"),
+                  obscureText: true,
+                ),
+              ),
+              SizedBox(height: size.height * 0.01),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: lastnameController,
+                  decoration: InputDecoration(labelText: "Last Name"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: firstnameController,
+                  decoration: InputDecoration(labelText: "First Name"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: phoneController,
+                  decoration: InputDecoration(labelText: "Phone"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: id_numberController,
+                  decoration: InputDecoration(labelText: "ID Number"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: addressController,
+                  decoration: InputDecoration(labelText: "Address"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                child: TextField(
+                  controller: roleController,
+                  decoration: InputDecoration(labelText: "Role"),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: ElevatedButton(
+                  onPressed:
+                      emailController.text == "" || passwordController.text == ""
+                          ? null
+                          : () {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              signUp(
+                                  emailController.text,
+                                  passwordController.text,
+                                  lastnameController.text,
+                                  firstnameController.text,
+                                  phoneController.text,
+                                  id_numberController.text,
+                                  addressController.text,
+                                  roleController.text,);
+                            },
+
+                  //shape: RoundedRectangleBorder(
+                  //    borderRadius: BorderRadius.circular(80.0)),
+                  //textColor: Colors.white,
+                  //padding: const EdgeInsets.all(0),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: const EdgeInsets.all(0)),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50.0,
+                    width: size.width * 0.5,
+                    decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(80.0),
+                        gradient: new LinearGradient(colors: [
+                          Color.fromARGB(255, 255, 136, 34),
+                          Color.fromARGB(255, 255, 177, 41)
+                        ])),
+                    padding: const EdgeInsets.all(0),
+                    child: Text(
+                      "Sign Up",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()))
-                },
-                child: Text(
-                  "Already Have an Account? Login",
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2661FA)),
+              Container(
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()))
+                  },
+                  child: Text(
+                    "Already Have an Account? Login",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2661FA)),
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
