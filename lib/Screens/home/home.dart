@@ -143,11 +143,11 @@ class _HomeScreenState extends State<HomeScreen> {
             _scrollController!.position.maxScrollExtent &&
         !_scrollController!.position.outOfRange) {
       setState(() {
-        print("comes to bottom $isLoading");
+        //print("comes to bottom $isLoading");
         isLoading = true;
 
         if (isLoading) {
-          print("Running load more..");
+          //print("Running load more..");
           pageCount = pageCount + 1;
 
           fetchFood(pageCount);

@@ -12,8 +12,18 @@ void main() {
 class MyApp extends StatelessWidget {
   Future<String> get jwtOrEmpty async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var jwt = prefs.getString("jwt");
-    if (jwt == null) return "N";
+    var jwt = prefs.getString("token");
+
+    //print('okok\n' + jwt!);
+    //var str;
+    //dynamic jw = str.length > 1 ? str.toString().split(".") : "";
+    //print(jw.toString());
+
+    if (jwt == null) {
+      //print(jwt.toString());
+      return "N";
+    }
+    //print(jwt.toString());
     return jwt.toString();
   }
 
@@ -21,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login',
+      title: 'Tumira Login',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xFF2661FA),
@@ -32,22 +42,25 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
           future: jwtOrEmpty,
           builder: (context, snapshot) {
+            //if (!snapshot.hasData) print('hakuna');
             if (!snapshot.hasData) return LoginPage();
             if (snapshot.data != "N") {
               dynamic str = snapshot.data;
               dynamic jwt = str.length > 1 ? str.toString().split(".") : "";
-              if (jwt.length != 3) {
-                return LoginPage();
+
+              // if (jwt.length != 3) {
+              //   return LoginPage();
+              // } else {
+              var payload = json.decode(
+                  ascii.decode(base64.decode(base64.normalize(jwt[1]))));
+              print(payload);
+              if (DateTime.fromMillisecondsSinceEpoch(payload["exp"] * 1000)
+                  .isAfter(DateTime.now())) {
+                return HomeScreen(str, payload);
               } else {
-                var payload = json.decode(
-                    ascii.decode(base64.decode(base64.normalize(jwt[1]))));
-                if (DateTime.fromMillisecondsSinceEpoch(payload["exp"] * 1000)
-                    .isAfter(DateTime.now())) {
-                  return HomeScreen(str, payload);
-                } else {
-                  return LoginPage();
-                }
+                return LoginPage();
               }
+              // }
             } else {
               return LoginPage();
             }

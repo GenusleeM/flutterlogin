@@ -19,7 +19,7 @@ class LoginScreen extends State<LoginPage> {
   var jsonResponse;
   bool isLoading = false;
   signIn(String email, String password) async {
-    String url = "https://tumira-backend.herokuapp.com/auth/login";
+    String url = "https://tumira-cash-backend.herokuapp.com/auth/login";
     Map body = {"email": email, "password": password};
     String bdy = json.encode(body);
     //print(body);
@@ -29,18 +29,18 @@ class LoginScreen extends State<LoginPage> {
       HttpHeaders.contentTypeHeader: 'application/json'
     });
     if (res.statusCode == 200) {
-      print("Response status: ${res.statusCode}");
-      var jsonResponse = res.body;
-      print(jsonResponse);
+      //print("Response status: ${res.statusCode}");
+      Map<String, dynamic> jsonResponse = jsonDecode(res.body);
+      String jsonR = jsonResponse['data']['token'];
+      //print(jsonResponse);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', jsonResponse);
+      prefs.setString('token', jsonResponse['data']['token']);
 
       //login giriş başarılı!
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  HomeScreen.fromBase64(jsonResponse)),
+              builder: (BuildContext context) => HomeScreen.fromBase64(jsonR)),
           (Route<dynamic> route) => false);
     } else {
       setState(() {

@@ -22,7 +22,7 @@ class _SideMenuState extends State<SideMenu> {
 
   Future<List<UserData>> fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    dynamic token = prefs.getString("jwt");
+    dynamic token = prefs.getString("token");
 
     final response = await http.get(Uri.parse('$SERVER_IP/user/data'),
         headers: {'authorization': token});
@@ -34,7 +34,8 @@ class _SideMenuState extends State<SideMenu> {
     }
 
     List jsonResponse = json.decode(response.body);
-
+    //List jsonResponse = json.decode('{"email":"lio@l.com","username":"lio"}');
+    print('ichi: \n' + jsonResponse[1]);
     return jsonResponse.map((myMap) => UserData.fromJson(myMap)).toList();
     //return json.decode(response.body);
   }
